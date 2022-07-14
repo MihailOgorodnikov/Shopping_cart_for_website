@@ -1,13 +1,27 @@
 // Div внутри корзины, в который мы добавляем товары
-const cartWrapper =  document.querySelector('.cart-wrapper'),
-      cartQuantity = document.querySelector('.cart_quantity');
+const cartWrapper =  document.querySelector('.cart-wrapper');
 	  
 	  let productArray = [];
-const printQuantity = () => {
-	let length = cartWrapper.children.length;
-    cartQuantity.textContent = length;
-		
-};
+
+	  
+function printQuantity () {
+	const cartQuantity = document.querySelector('.cart_quantity');
+	const priceElements = cartWrapper.querySelectorAll('.items__current');
+	let priceTotal = 0;
+
+	// Обходим все блоки с ценами в корзине
+	priceElements.forEach(function (item) {
+		// Находим количество товара
+		const amountEl = item.closest('.cart-item').querySelector('[data-counter]');
+		// Добавляем стоимость товара в общую стоимость (кол-во * цену)
+		priceTotal += parseInt(amountEl.innerText);
+	});
+
+	// Отображаем цену на странице
+	cartQuantity.innerText = priceTotal;
+	
+}
+
 const priceWithoutSpaces = (str) => {
     return str.replace(/\s/g,'');
 };
@@ -100,7 +114,8 @@ window.addEventListener('click', function (event) {
 
 		// Пересчет общей стоимости товаров в корзине
 		calcCartPriceAndDelivery();
-		printQuantity();
+		//printQuantity();
+		printQuantity ();
 	}
 });
 
